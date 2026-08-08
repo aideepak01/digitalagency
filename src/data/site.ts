@@ -11,9 +11,9 @@ export const siteConfig = {
   phone: "+91 93102 49299",
   whatsapp: "919310249299",
   address: {
-    street: "Gali no. 3, Sector 44",
+    street: "Gali No. 3, Sector 44",
     city: "Noida",
-    state: "UP",
+    state: "Uttar Pradesh",
     zip: "201301",
     country: "India",
   },
