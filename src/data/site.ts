@@ -16,6 +16,7 @@ export const siteConfig = {
     state: "Uttar Pradesh",
     zip: "201301",
     country: "India",
+    full: "Gali No. 3, Sector 44, Noida, Uttar Pradesh – 201301, India",
   },
   social: {
     twitter: "https://twitter.com/sbabuai",

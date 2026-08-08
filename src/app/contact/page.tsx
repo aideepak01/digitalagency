@@ -165,11 +165,7 @@ export default function ContactPage() {
               </span>
               <h3 className="text-xl font-semibold text-foreground">{siteConfig.legalName}</h3>
               <p className="text-base leading-relaxed text-muted-foreground">
-                {siteConfig.address.street}
-                <br />
-                {siteConfig.address.city}, {siteConfig.address.state} {siteConfig.address.zip}
-                <br />
-                {siteConfig.address.country}
+                {siteConfig.address.full}
               </p>
             </div>
             <div className="relative flex min-h-[280px] items-center justify-center bg-gradient-brand-radial bg-muted">
