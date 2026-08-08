@@ -113,9 +113,9 @@ export default function TermsConditionsPage() {
 
             <h2>10. Governing Law</h2>
             <p>
-              These Terms are governed by the laws of the State of California, United States,
+              These Terms are governed by the laws of India, Uttar Pradesh,
               without regard to its conflict of law provisions. Any disputes arising under these
-              Terms will be resolved in the courts located in San Francisco, California.
+              Terms will be resolved in the courts located in Noida, Uttar Pradesh, India.
             </p>
 
             <h2>11. Changes to These Terms</h2>
