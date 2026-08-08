@@ -209,6 +209,23 @@
     border: 1px solid color-mix(in oklch, var(--foreground) 8%, transparent);
   }
 
+  /* The floating navbar pill sits inside a padded, transparent fixed header,
+     so page content used to scroll visibly through the gap above and beside
+     it. This scrim fills that gap, fading out at the bottom edge so the pill
+     still reads as detached. */
+  .header-scrim {
+    background: linear-gradient(
+      to bottom,
+      color-mix(in oklch, var(--background) 92%, transparent) 0%,
+      color-mix(in oklch, var(--background) 70%, transparent) 55%,
+      transparent 100%
+    );
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+  }
+
   .section-pad {
     padding-top: clamp(3.5rem, 8vw, 7rem);
     padding-bottom: clamp(3.5rem, 8vw, 7rem);

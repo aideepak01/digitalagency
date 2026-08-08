@@ -55,9 +55,20 @@ export function Navbar() {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4 sm:pt-4"
     >
+      {/* Covers the transparent padding around the pill, which page content
+          would otherwise scroll through. Extends past the header's bottom
+          edge so the mask has room to fade. */}
+      <div
+        aria-hidden
+        className={cn(
+          "header-scrim pointer-events-none absolute inset-x-0 -bottom-3 top-0 transition-opacity duration-300",
+          scrolled ? "opacity-100" : "opacity-0"
+        )}
+      />
+
       <div
         className={cn(
-          "container-brand flex w-full items-center justify-between rounded-2xl px-3 py-2 transition-all duration-300 sm:px-4",
+          "container-brand relative flex w-full items-center justify-between rounded-2xl px-3 py-2 transition-all duration-300 sm:px-4",
           scrolled
             ? "glass shadow-[0_8px_30px_-12px_rgba(0,0,0,0.25)]"
             : "border border-transparent bg-transparent"
