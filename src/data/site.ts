@@ -8,8 +8,8 @@ export const siteConfig = {
   ogImage: "/og-image.png",
   email: "hello@sbabu.ai",
   salesEmail: "sales@sbabu.ai",
-  phone: "+1 (415) 555-0142",
-  whatsapp: "14155550142",
+  phone: "+91 93102 49299",
+  whatsapp: "919310249299",
   address: {
     street: "548 Market Street, Suite 62000",
     city: "San Francisco",
