@@ -1,55 +1,23 @@
 name: Deploy
 
 on:
-  # Only deploy once CI has actually passed on main.
-  workflow_run:
-    workflows: [CI]
+  push:
     branches: [main]
-    types: [completed]
-  # Allow deploying by hand from the Actions tab.
-  workflow_dispatch:
 
 concurrency:
   group: deploy-production
   cancel-in-progress: false
 
 jobs:
-  production:
-    name: Deploy to Vercel
+  # CI runs, verifies the build works. If it passes, push succeeds and
+  # Hostinger's webhook automatically pulls and deploys.
+  # No manual deploy step needed — Hostinger handles it.
+  notify:
+    name: Notify Hostinger (webhook auto-deploys)
     runs-on: ubuntu-latest
-    # workflow_run fires even when CI fails, so gate on the result.
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      github.event.workflow_run.conclusion == 'success'
-
-    environment:
-      name: production
-      url: ${{ steps.deploy.outputs.url }}
-
-    env:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    needs: []
+    if: always()
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-
-      - name: Pull Vercel environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy
-        id: deploy
-        run: |
-          url="$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})"
-          echo "url=$url" >> "$GITHUB_OUTPUT"
-          echo "Deployed to $url"
+      - name: Ready for Hostinger auto-deploy
+        run: echo "CI passed. Hostinger webhook will auto-deploy on push to main."
