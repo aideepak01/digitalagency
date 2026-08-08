@@ -36,8 +36,10 @@ export function Navbar() {
   const pathname = usePathname();
   const { scrollY } = useScroll();
 
+  // Engages almost immediately: content starts passing under the header on the
+  // very first pixel of scroll, so waiting until 16px leaves a visible gap.
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 16);
+    setScrolled(latest > 2);
   });
 
   const [lastPathname, setLastPathname] = React.useState(pathname);
@@ -55,25 +57,22 @@ export function Navbar() {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4 sm:pt-4"
     >
-      {/* Covers the transparent padding around the pill, which page content
-          would otherwise scroll through. Extends past the header's bottom
-          edge so the mask has room to fade. */}
+      {/* Opaque header surface. Must stay fully opaque — any translucency or
+          fade lets page text show through while scrolling. inset-0 stops it
+          exactly at the header's bottom edge, so content is hidden above that
+          line and appears cleanly below it. */}
       <div
         aria-hidden
         className={cn(
-          "header-scrim pointer-events-none absolute inset-x-0 -bottom-3 top-0 transition-opacity duration-300",
+          "header-scrim pointer-events-none absolute inset-0 transition-opacity duration-300",
           scrolled ? "opacity-100" : "opacity-0"
         )}
       />
 
-      <div
-        className={cn(
-          "container-brand relative flex w-full items-center justify-between rounded-2xl px-3 py-2 transition-all duration-300 sm:px-4",
-          scrolled
-            ? "glass shadow-[0_8px_30px_-12px_rgba(0,0,0,0.25)]"
-            : "border border-transparent bg-transparent"
-        )}
-      >
+      {/* The scrim supplies the header surface once scrolled, so this stays a
+          transparent layout container. Giving it its own background here would
+          render as a stray outlined box against the opaque scrim. */}
+      <div className="container-brand relative flex w-full items-center justify-between px-3 py-2 sm:px-4">
         <Logo />
 
         <NavigationMenu viewport={false} className="hidden lg:flex">
