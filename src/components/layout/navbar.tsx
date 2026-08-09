@@ -42,6 +42,15 @@ export function Navbar() {
     setScrolled(latest > 2);
   });
 
+  // "change" only fires on an actual scroll, so a page that arrives already
+  // scrolled — a #hash link like /contact#consultation, a mid-page refresh, or
+  // browser scroll restoration on back/forward — would sit there with the
+  // scrim off and page content showing straight through the header. Seed the
+  // state from the real scroll offset once on mount.
+  React.useEffect(() => {
+    setScrolled(scrollY.get() > 2);
+  }, [scrollY]);
+
   const [lastPathname, setLastPathname] = React.useState(pathname);
   if (pathname !== lastPathname) {
     setLastPathname(pathname);
@@ -64,7 +73,7 @@ export function Navbar() {
       <div
         aria-hidden
         className={cn(
-          "header-scrim pointer-events-none absolute inset-0 transition-opacity duration-300",
+          "header-scrim pointer-events-none absolute inset-0 transition-opacity duration-150",
           scrolled ? "opacity-100" : "opacity-0"
         )}
       />
