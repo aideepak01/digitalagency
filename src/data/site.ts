@@ -1,9 +1,9 @@
 export const siteConfig = {
   name: "Sbabu AI",
   legalName: "Sbabu AI Technologies",
-  tagline: "Building Intelligent Businesses Through AI & Software",
+  tagline: "Production-Grade AI Agents & Software Platforms",
   description:
-    "Sbabu AI is a global AI & software development agency helping ambitious companies design, build, and scale intelligent products — from AI agents and automation to full-stack web and mobile platforms.",
+    "Sbabu AI architects, builds, and scales production-grade AI agents, workflow automation, and full-stack platforms for enterprise teams — prototype to production in weeks, staffed by senior engineers only.",
   url: "https://sbabu.ai",
   ogImage: "/og-image.png",
   email: "sbabu@sbabuai.com",

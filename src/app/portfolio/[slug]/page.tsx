@@ -186,8 +186,8 @@ export default async function PortfolioDetailPage({
 
       <CtaSection
         title="Want results like this for your product?"
-        description="Book a free consultation and let's talk about what's possible."
-        primaryLabel="Book Free Consultation"
+        description="Book a free 30-minute call and let's talk about what's possible."
+        primaryLabel="Book 30-Min AI Strategy Call"
         primaryHref="/contact#consultation"
         secondaryLabel="View All Work"
         secondaryHref="/portfolio"

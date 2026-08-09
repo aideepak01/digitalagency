@@ -122,11 +122,12 @@ export default function ContactPage() {
               Free consultation
             </span>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground">
-              Book a free consultation
+              Book your 30-minute AI strategy call
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              Talk through your project with a senior member of our team — no sales pitch, just
-              honest guidance on scope, approach, and timeline.
+              Thirty minutes with a senior AI engineer — not a salesperson. You&apos;ll leave with
+              a free architecture review of your workflow, an honest read on scope and timeline,
+              and no obligation to go further.
             </p>
           </Reveal>
           <Reveal delay={0.1} className="rounded-3xl border border-border bg-card p-6 sm:p-8">

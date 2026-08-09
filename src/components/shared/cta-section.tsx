@@ -10,15 +10,17 @@ interface CtaSectionProps {
   primaryHref?: string;
   secondaryLabel?: string;
   secondaryHref?: string;
+  microcopy?: string;
 }
 
 export function CtaSection({
-  title = "Ready to build something intelligent?",
-  description = "Tell us about your project and we'll get back to you within one business day with next steps.",
-  primaryLabel = "Book Free Consultation",
+  title = "Ready to put AI agents into production?",
+  description = "Tell us about your workflow and we'll come back within one business day with a concrete architecture and timeline.",
+  primaryLabel = "Book 30-Min AI Strategy Call",
   primaryHref = "/contact#consultation",
   secondaryLabel = "Get a Project Estimate",
   secondaryHref = "/contact#quote",
+  microcopy = "30 minutes with a senior AI engineer · Free architecture review · No sales pitch",
 }: CtaSectionProps) {
   return (
     <section className="section-pad">
@@ -59,6 +61,9 @@ export function CtaSection({
                   <Link href={secondaryHref}>{secondaryLabel}</Link>
                 </Button>
               </div>
+              {microcopy ? (
+                <p className="text-sm text-white/75">{microcopy}</p>
+              ) : null}
             </div>
           </div>
         </Reveal>

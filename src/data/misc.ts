@@ -219,18 +219,26 @@ export const processSteps = [
 export const whyChooseUs = [
   {
     title: "Senior talent only",
+    metric: "100%",
+    metricLabel: "senior staffing",
     description: "Every engagement is staffed with senior engineers and designers — no junior learning curve on your dime.",
   },
   {
     title: "AI-native, not AI-bolted-on",
-    description: "We've been building production AI systems since before it was trendy — it's core to how we architect software.",
+    metric: "85%",
+    metricLabel: "average workflow speedup",
+    description: "Deep LLM orchestration, RAG pipelines, and autonomous agents wired natively into your backend — not bolted on after the fact.",
   },
   {
     title: "Transparent delivery",
+    metric: "<1 day",
+    metricLabel: "response time",
     description: "Weekly demos, clear timelines, and dashboards you can check anytime — never a black box.",
   },
   {
     title: "Built to last",
+    metric: "99.9%",
+    metricLabel: "system uptime",
     description: "Clean architecture and real test coverage mean your product stays maintainable long after we hand it off.",
   },
 ];

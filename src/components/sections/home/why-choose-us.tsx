@@ -19,9 +19,19 @@ export function WhyChooseUs() {
           {whyChooseUs.map((item, index) => (
             <Reveal key={item.title} delay={index * 0.08}>
               <div className="flex h-full flex-col gap-3 rounded-2xl border border-border bg-card p-5">
-                <span className="flex size-9 items-center justify-center rounded-lg bg-gradient-brand/10 text-primary">
-                  <CheckCircle2 className="size-5" />
-                </span>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="flex size-9 items-center justify-center rounded-lg bg-gradient-brand/10 text-primary">
+                    <CheckCircle2 className="size-5" />
+                  </span>
+                  <span className="text-right">
+                    <span className="block text-xl font-semibold tracking-tight text-gradient-brand">
+                      {item.metric}
+                    </span>
+                    <span className="block text-[11px] uppercase tracking-wide text-muted-foreground">
+                      {item.metricLabel}
+                    </span>
+                  </span>
+                </div>
                 <h3 className="text-base font-semibold text-foreground">{item.title}</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   {item.description}

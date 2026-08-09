@@ -34,7 +34,7 @@ export function Hero() {
             className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-4 py-1.5 text-sm text-muted-foreground"
           >
             <Sparkles className="size-3.5 text-primary" />
-            AI &amp; Software Development Agency
+            Enterprise AI Agents &amp; Product Engineering
           </motion.div>
 
           <motion.h1
@@ -43,9 +43,9 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl"
           >
-            Building Intelligent
+            We Architect, Build &amp; Scale
             <br />
-            <span className="text-gradient-brand">Businesses</span> Through AI &amp; Software
+            <span className="text-gradient-brand">Production-Grade AI Agents</span>
           </motion.h1>
 
           <motion.p
@@ -54,35 +54,40 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 max-w-2xl text-balance text-lg leading-relaxed text-muted-foreground sm:text-xl"
           >
-            {siteConfig.name} designs and builds AI agents, intelligent automation, and
-            full-stack software for ambitious companies — from first prototype to
-            production scale.
+            Replace manual workflows with enterprise AI agents and high-performance
+            full-stack platforms. {siteConfig.name} takes you from prototype to production
+            scale in weeks — built and run by senior engineers only.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-10 flex flex-col gap-3 sm:flex-row"
+            className="mt-10 flex flex-col items-center gap-3"
           >
-            <Button
-              asChild
-              size="lg"
-              className="h-12 rounded-full bg-gradient-brand px-7 text-base text-white hover:opacity-90"
-            >
-              <Link href="/contact#consultation">
-                Book Free Consultation
-                <ArrowRight className="size-4" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="h-12 rounded-full px-7 text-base"
-            >
-              <Link href="/portfolio">View Our Work</Link>
-            </Button>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button
+                asChild
+                size="lg"
+                className="h-12 rounded-full bg-gradient-brand px-7 text-base text-white hover:opacity-90"
+              >
+                <Link href="/contact#consultation">
+                  Book 30-Min AI Strategy Call
+                  <ArrowRight className="size-4" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-12 rounded-full border-primary/40 px-7 text-base text-foreground hover:border-primary hover:bg-primary/5"
+              >
+                <Link href="/portfolio">See Client Results</Link>
+              </Button>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Straight to a senior AI engineer · Free architecture review · No sales pitch
+            </p>
           </motion.div>
         </div>
 

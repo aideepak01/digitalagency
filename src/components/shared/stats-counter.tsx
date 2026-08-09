@@ -1,7 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "framer-motion";
 
 interface Stat {
   label: string;
@@ -12,25 +18,33 @@ interface Stat {
 function Counter({ value, suffix }: { value: string; suffix?: string }) {
   const ref = React.useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
-  const numericValue = parseInt(value, 10) || 0;
+  const prefersReducedMotion = useReducedMotion();
+
+  const target = Number(value);
+  const isNumeric = value.trim() !== "" && Number.isFinite(target);
+  const decimals = value.includes(".") ? value.split(".")[1].length : 0;
+
+  // Start at the final value so the server-rendered HTML — and anything that
+  // reads it before the count-up runs (crawlers, audits, JS-disabled, reduced
+  // motion) — shows the real number instead of 0.
+  const [display, setDisplay] = React.useState(isNumeric ? target : 0);
   const motionValue = useMotionValue(0);
   const springValue = useSpring(motionValue, { duration: 1.4, bounce: 0 });
-  const [display, setDisplay] = React.useState(0);
+
+  React.useEffect(
+    () => springValue.on("change", (latest) => setDisplay(latest)),
+    [springValue]
+  );
 
   React.useEffect(() => {
-    if (isInView) motionValue.set(numericValue);
-  }, [isInView, motionValue, numericValue]);
-
-  React.useEffect(() => {
-    const unsubscribe = springValue.on("change", (latest) => {
-      setDisplay(Math.round(latest));
-    });
-    return unsubscribe;
-  }, [springValue]);
+    if (!isInView || !isNumeric || prefersReducedMotion) return;
+    setDisplay(0);
+    motionValue.set(target);
+  }, [isInView, isNumeric, motionValue, prefersReducedMotion, target]);
 
   return (
     <span ref={ref}>
-      {display}
+      {isNumeric ? display.toFixed(decimals) : value}
       {suffix}
     </span>
   );

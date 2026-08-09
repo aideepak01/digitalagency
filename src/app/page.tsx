@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/sections/home/hero";
+import { TrustBar } from "@/components/sections/home/trust-bar";
 import { Intro } from "@/components/sections/home/intro";
 import { FeaturedServices } from "@/components/sections/home/featured-services";
 import { WhyChooseUs } from "@/components/sections/home/why-choose-us";
@@ -25,6 +26,7 @@ export default function HomePage() {
     <>
       <JsonLd data={faqSchema(homeFaqs)} />
       <Hero />
+      <TrustBar />
       <Intro />
       <FeaturedServices />
       <WhyChooseUs />
