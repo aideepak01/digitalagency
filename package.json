@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/retain-static.mjs stash",
     "build": "next build",
+    "postbuild": "node scripts/retain-static.mjs restore",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit"

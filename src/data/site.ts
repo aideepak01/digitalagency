@@ -4,10 +4,10 @@ export const siteConfig = {
   tagline: "Production-Grade AI Agents & Software Platforms",
   description:
     "Sbabu AI architects, builds, and scales production-grade AI agents, workflow automation, and full-stack platforms for enterprise teams — prototype to production in weeks, staffed by senior engineers only.",
-  url: "https://sbabu.ai",
+  url: "https://sbabuai.com",
   ogImage: "/og-image.png",
   email: "sbabu@sbabuai.com",
-  salesEmail: "sales@sbabu.ai",
+  salesEmail: "sales@sbabuai.com",
   phone: "+91 93102 49299",
   whatsapp: "919310249299",
   address: {
