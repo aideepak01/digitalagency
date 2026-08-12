@@ -3,10 +3,10 @@ import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { BlogCard } from "@/components/shared/blog-card";
 import { Button } from "@/components/ui/button";
-import { blogPosts } from "@/data/blog";
+import { getBlogPosts } from "@/lib/db/content";
 
-export function LatestBlog() {
-  const latest = blogPosts.slice(0, 3);
+export async function LatestBlog() {
+  const latest = (await getBlogPosts()).slice(0, 3);
 
   return (
     <section className="section-pad">

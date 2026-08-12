@@ -9,17 +9,28 @@ import {
 } from "@/components/icons/social-icons";
 import { Logo } from "@/components/layout/logo";
 import { NewsletterForm } from "@/components/shared/newsletter-form";
-import { siteConfig, footerLinks } from "@/data/site";
+import { getFooterLinks, getSiteConfig } from "@/lib/db/settings";
 
-const socialLinks = [
-  { href: siteConfig.social.twitter, icon: TwitterIcon, label: "Twitter" },
-  { href: siteConfig.social.linkedin, icon: LinkedinIcon, label: "LinkedIn" },
-  { href: siteConfig.social.github, icon: GithubIcon, label: "GitHub" },
-  { href: siteConfig.social.instagram, icon: InstagramIcon, label: "Instagram" },
-  { href: siteConfig.social.dribbble, icon: DribbbleIcon, label: "Dribbble" },
-];
+/**
+ * Social network → brand icon. The URLs come from the database
+ * (`site_settings.social`); a network with no URL configured is skipped, so the
+ * admin can drop a profile without leaving a dead link behind.
+ */
+const socialIcons = {
+  twitter: { icon: TwitterIcon, label: "Twitter" },
+  linkedin: { icon: LinkedinIcon, label: "LinkedIn" },
+  github: { icon: GithubIcon, label: "GitHub" },
+  instagram: { icon: InstagramIcon, label: "Instagram" },
+  dribbble: { icon: DribbbleIcon, label: "Dribbble" },
+} as const;
 
-export function Footer() {
+export async function Footer() {
+  const [siteConfig, footerLinks] = await Promise.all([getSiteConfig(), getFooterLinks()]);
+
+  const socialLinks = Object.entries(socialIcons)
+    .map(([key, meta]) => ({ ...meta, href: siteConfig.social[key] }))
+    .filter((social): social is typeof social & { href: string } => Boolean(social.href));
+
   return (
     <footer className="relative mt-24 overflow-hidden border-t border-border bg-surface">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-brand" />

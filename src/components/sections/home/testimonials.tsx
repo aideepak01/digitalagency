@@ -1,8 +1,10 @@
 import { SectionHeading } from "@/components/shared/section-heading";
 import { TestimonialCarousel } from "@/components/shared/testimonial-carousel";
-import { testimonials } from "@/data/testimonials";
+import { getTestimonials } from "@/lib/db/content";
 
-export function Testimonials() {
+export async function Testimonials() {
+  const testimonials = await getTestimonials();
+
   return (
     <section className="section-pad">
       <div className="container-brand">

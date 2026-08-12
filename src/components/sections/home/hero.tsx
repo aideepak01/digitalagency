@@ -4,7 +4,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Bot, Code2, Cpu, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/data/site";
+// Client component: site settings arrive as a prop from the server page rather
+// than being read from the database here.
 
 const floatingCards = [
   { icon: Bot, label: "AI Agents", className: "left-[4%] top-[18%]", delay: 0 },
@@ -13,7 +14,7 @@ const floatingCards = [
   { icon: Zap, label: "99.9% Uptime", className: "right-[6%] bottom-[20%]", delay: 0.45 },
 ];
 
-export function Hero() {
+export function Hero({ siteName }: { siteName: string }) {
   return (
     <section className="relative overflow-hidden pb-20 pt-16 sm:pb-28 sm:pt-24">
       <div
@@ -55,7 +56,7 @@ export function Hero() {
             className="mt-6 max-w-2xl text-balance text-lg leading-relaxed text-muted-foreground sm:text-xl"
           >
             Replace manual workflows with enterprise AI agents and high-performance
-            full-stack platforms. {siteConfig.name} takes you from prototype to production
+            full-stack platforms. {siteName} takes you from prototype to production
             scale in weeks — built and run by senior engineers only.
           </motion.p>
 

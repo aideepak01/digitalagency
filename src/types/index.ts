@@ -1,11 +1,23 @@
-import type { LucideIcon } from "lucide-react";
+/**
+ * Shapes returned by the `src/lib/db/*` query modules and consumed by pages.
+ *
+ * Two fields differ from the pre-database version of this file:
+ *  - `iconName` replaces `icon: LucideIcon`. A database cannot store a React
+ *    component; resolve with `getIcon()` from `@/lib/icons`.
+ *  - `gradientKey` replaces `coverGradient`, which held raw Tailwind classes.
+ *    Resolve with `getGradient()` from `@/lib/gradients`. See the comment in
+ *    `src/lib/gradients.ts` for why the classes cannot live in the database.
+ */
+
+export type ServiceCategory = "AI" | "Development" | "Design" | "Infrastructure";
 
 export interface Service {
+  id: number;
   slug: string;
-  category: "AI" | "Development" | "Design" | "Infrastructure";
+  category: ServiceCategory;
   name: string;
   shortName: string;
-  icon: LucideIcon;
+  iconName: string;
   tagline: string;
   overview: string;
   benefits: { title: string; description: string }[];
@@ -13,13 +25,14 @@ export interface Service {
   techStack: string[];
   process: { step: string; title: string; description: string }[];
   faqs: { question: string; answer: string }[];
-  relatedIndustries?: string[];
+  relatedIndustries: string[];
 }
 
 export interface Industry {
+  id: number;
   slug: string;
   name: string;
-  icon: LucideIcon;
+  iconName: string;
   tagline: string;
   overview: string;
   challenges: { title: string; description: string }[];
@@ -29,6 +42,7 @@ export interface Industry {
 }
 
 export interface PortfolioProject {
+  id: number;
   slug: string;
   title: string;
   client: string;
@@ -40,11 +54,12 @@ export interface PortfolioProject {
   outcomes: { label: string; value: string }[];
   technologies: string[];
   year: string;
-  coverGradient: string;
-  testimonial?: { quote: string; author: string; role: string };
+  gradientKey: string;
+  testimonial?: { quote: string; author: string; role: string } | null;
 }
 
 export interface BlogPost {
+  id: number;
   slug: string;
   title: string;
   excerpt: string;
@@ -53,10 +68,11 @@ export interface BlogPost {
   author: { name: string; role: string };
   date: string;
   readTime: string;
-  coverGradient: string;
+  gradientKey: string;
 }
 
 export interface Testimonial {
+  id: number;
   quote: string;
   author: string;
   role: string;
@@ -65,16 +81,18 @@ export interface Testimonial {
 }
 
 export interface PricingPlan {
+  id: number;
   name: string;
   price: string;
   period: string;
   description: string;
   features: string[];
   cta: string;
-  highlighted?: boolean;
+  highlighted: boolean;
 }
 
 export interface TeamMember {
+  id: number;
   name: string;
   role: string;
   bio: string;
@@ -82,6 +100,7 @@ export interface TeamMember {
 }
 
 export interface JobOpening {
+  id: number;
   slug: string;
   title: string;
   department: string;
@@ -94,4 +113,63 @@ export interface JobOpening {
 export interface FAQ {
   question: string;
   answer: string;
+}
+
+export interface CoreValue {
+  title: string;
+  description: string;
+}
+
+export interface ProcessStep {
+  step: string;
+  title: string;
+  description: string;
+}
+
+export interface WhyChooseUsItem {
+  title: string;
+  metric: string;
+  metricLabel: string;
+  description: string;
+}
+
+export interface SiteConfig {
+  name: string;
+  legalName: string;
+  tagline: string;
+  description: string;
+  url: string;
+  ogImage: string;
+  email: string;
+  salesEmail: string;
+  phone: string;
+  whatsapp: string;
+  founded: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+    full: string;
+  };
+  social: Record<string, string>;
+  stats: { label: string; value: string; suffix: string }[];
+}
+
+export interface NavLink {
+  label: string;
+  href: string;
+  megaMenu: string | null;
+}
+
+export interface FooterLink {
+  label: string;
+  href: string;
+}
+
+export interface FooterLinkGroups {
+  services: FooterLink[];
+  company: FooterLink[];
+  legal: FooterLink[];
 }

@@ -1,8 +1,10 @@
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
-import { technologies } from "@/data/misc";
+import { getTechnologies } from "@/lib/db/content";
 
-export function Technologies() {
+export async function Technologies() {
+  const technologies = await getTechnologies();
+
   return (
     <section className="section-pad bg-muted/30">
       <div className="container-brand">

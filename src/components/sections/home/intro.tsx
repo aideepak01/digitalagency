@@ -1,9 +1,11 @@
 import { SectionHeading } from "@/components/shared/section-heading";
 import { StatsCounter } from "@/components/shared/stats-counter";
 import { Reveal } from "@/components/shared/reveal";
-import { siteConfig } from "@/data/site";
+import { getSiteConfig } from "@/lib/db/settings";
 
-export function Intro() {
+export async function Intro() {
+  const siteConfig = await getSiteConfig();
+
   return (
     <section className="section-pad">
       <div className="container-brand">

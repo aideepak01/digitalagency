@@ -1,12 +1,30 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/data/site";
-import { services } from "@/data/services";
-import { industries } from "@/data/industries";
-import { portfolioProjects } from "@/data/portfolio";
-import { blogPosts } from "@/data/blog";
-import { jobOpenings } from "@/data/misc";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+import {
+  getBlogPosts,
+  getIndustries,
+  getJobOpenings,
+  getPortfolioProjects,
+  getServices,
+} from "@/lib/db/content";
+import { getSiteConfig } from "@/lib/db/settings";
+
+/**
+ * Built from the database. If it is unreachable the content queries return
+ * empty lists and the sitemap still emits the static routes rather than
+ * failing the build — see `safeQuery` in `src/lib/db/client.ts`.
+ */
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [siteConfig, services, industries, portfolioProjects, blogPosts, jobOpenings] =
+    await Promise.all([
+      getSiteConfig(),
+      getServices(),
+      getIndustries(),
+      getPortfolioProjects(),
+      getBlogPosts(),
+      getJobOpenings(),
+    ]);
+
   const baseUrl = siteConfig.url;
   const now = new Date();
 
@@ -20,8 +38,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/pricing`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${baseUrl}/careers`, lastModified: now, changeFrequency: "weekly", priority: 0.6 },
-    { url: `${baseUrl}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${baseUrl}/terms-conditions`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    {
+      url: `${baseUrl}/privacy-policy`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${baseUrl}/terms-conditions`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
   ];
 
   const serviceRoutes: MetadataRoute.Sitemap = services.map((service) => ({

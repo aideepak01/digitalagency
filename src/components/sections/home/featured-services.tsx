@@ -3,10 +3,10 @@ import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { ServiceCard } from "@/components/shared/service-card";
 import { Button } from "@/components/ui/button";
-import { services } from "@/data/services";
+import { getServices } from "@/lib/db/content";
 
-export function FeaturedServices() {
-  const featured = services.slice(0, 8);
+export async function FeaturedServices() {
+  const featured = (await getServices()).slice(0, 8);
 
   return (
     <section className="section-pad bg-muted/30">

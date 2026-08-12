@@ -2,8 +2,11 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { Industry } from "@/types";
 import { Reveal } from "@/components/shared/reveal";
+import { getIcon } from "@/lib/icons";
 
 export function IndustryCard({ industry, delay = 0 }: { industry: Industry; delay?: number }) {
+  const Icon = getIcon(industry.iconName);
+
   return (
     <Reveal delay={delay} className="h-full">
       <Link
@@ -12,7 +15,7 @@ export function IndustryCard({ industry, delay = 0 }: { industry: Industry; dela
       >
         <div>
           <div className="mb-5 flex size-12 items-center justify-center rounded-xl bg-gradient-brand/10 text-primary transition-colors group-hover:bg-gradient-brand group-hover:text-white">
-            <industry.icon className="size-5" />
+            <Icon className="size-5" />
           </div>
           <h3 className="text-lg font-semibold text-foreground">{industry.name}</h3>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

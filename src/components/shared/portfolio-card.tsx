@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { PortfolioProject } from "@/types";
 import { Reveal } from "@/components/shared/reveal";
 import { Badge } from "@/components/ui/badge";
+import { getGradient } from "@/lib/gradients";
 
 export function PortfolioCard({
   project,
@@ -18,7 +19,7 @@ export function PortfolioCard({
         className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.25)]"
       >
         <div
-          className={`relative flex h-48 items-end overflow-hidden bg-gradient-to-br ${project.coverGradient} p-5`}
+          className={`relative flex h-48 items-end overflow-hidden bg-gradient-to-br ${getGradient(project.gradientKey)} p-5`}
         >
           <div className="absolute inset-0 bg-black/10 transition-opacity group-hover:bg-black/0" />
           <span className="relative flex items-center justify-center rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">

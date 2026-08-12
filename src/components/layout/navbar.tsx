@@ -25,12 +25,37 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Logo } from "@/components/layout/logo";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
-import { navLinks } from "@/data/site";
-import { services } from "@/data/services";
-import { industries } from "@/data/industries";
+import { getIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
+import type { NavLink } from "@/types";
 
-export function Navbar() {
+/**
+ * The navbar is a client component, so it cannot query the database itself.
+ * The root layout reads nav data on the server and passes it down — only plain
+ * serialisable values cross that boundary, which is why icons arrive as names
+ * and are resolved here rather than passed as components.
+ */
+export interface NavbarService {
+  slug: string;
+  shortName: string;
+  tagline: string;
+  iconName: string;
+}
+
+export interface NavbarIndustry {
+  slug: string;
+  name: string;
+  iconName: string;
+}
+
+interface NavbarProps {
+  navLinks: NavLink[];
+  services: NavbarService[];
+  industries: NavbarIndustry[];
+  totalServices: number;
+}
+
+export function Navbar({ navLinks, services, industries, totalServices }: NavbarProps) {
   const [scrolled, setScrolled] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const pathname = usePathname();
@@ -87,7 +112,7 @@ export function Navbar() {
         <NavigationMenu viewport={false} className="hidden lg:flex">
           <NavigationMenuList className="gap-1">
             {navLinks.map((link) => {
-              if (link.label === "Services") {
+              if (link.megaMenu === "services") {
                 return (
                   <NavigationMenuItem key={link.href}>
                     <NavigationMenuTrigger className="bg-transparent text-sm">
@@ -96,14 +121,16 @@ export function Navbar() {
                     <NavigationMenuContent>
                       <div className="grid w-[640px] grid-cols-2 gap-1 p-4">
                         <div className="col-span-2 grid grid-cols-2 gap-1">
-                          {featuredServices.map((service) => (
+                          {featuredServices.map((service) => {
+                            const ServiceIcon = getIcon(service.iconName);
+                            return (
                             <NavigationMenuLink key={service.slug} asChild>
                               <Link
                                 href={`/services/${service.slug}`}
                                 className="flex items-start gap-3 rounded-xl p-2.5 transition-colors hover:bg-muted"
                               >
                                 <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-gradient-brand/10 text-primary">
-                                  <service.icon className="size-4" />
+                                  <ServiceIcon className="size-4" />
                                 </span>
                                 <span className="flex flex-col">
                                   <span className="text-sm font-medium text-foreground">
@@ -115,11 +142,12 @@ export function Navbar() {
                                 </span>
                               </Link>
                             </NavigationMenuLink>
-                          ))}
+                            );
+                          })}
                         </div>
                         <div className="col-span-2 mt-1 flex items-center justify-between rounded-xl bg-muted/60 px-4 py-3">
                           <span className="text-sm text-muted-foreground">
-                            Explore all 16 services we offer
+                            Explore all {totalServices} services we offer
                           </span>
                           <Link
                             href="/services"
@@ -134,7 +162,7 @@ export function Navbar() {
                 );
               }
 
-              if (link.label === "Industries") {
+              if (link.megaMenu === "industries") {
                 return (
                   <NavigationMenuItem key={link.href}>
                     <NavigationMenuTrigger className="bg-transparent text-sm">
@@ -142,21 +170,24 @@ export function Navbar() {
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <div className="grid w-[480px] grid-cols-2 gap-1 p-4">
-                        {industries.map((industry) => (
+                        {industries.map((industry) => {
+                          const IndustryIcon = getIcon(industry.iconName);
+                          return (
                           <NavigationMenuLink key={industry.slug} asChild>
                             <Link
                               href={`/industries/${industry.slug}`}
                               className="flex items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-muted"
                             >
                               <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-gradient-brand/10 text-primary">
-                                <industry.icon className="size-4" />
+                                <IndustryIcon className="size-4" />
                               </span>
                               <span className="text-sm font-medium text-foreground">
                                 {industry.name}
                               </span>
                             </Link>
                           </NavigationMenuLink>
-                        ))}
+                          );
+                        })}
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>

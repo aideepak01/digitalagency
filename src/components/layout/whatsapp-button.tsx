@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
-import { siteConfig } from "@/data/site";
+import { getSiteConfig } from "@/lib/db/settings";
 
-export function WhatsAppButton() {
+export async function WhatsAppButton() {
+  const siteConfig = await getSiteConfig();
+
   return (
     <Link
       href={`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(

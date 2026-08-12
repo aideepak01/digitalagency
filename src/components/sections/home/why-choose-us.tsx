@@ -1,9 +1,11 @@
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
-import { whyChooseUs } from "@/data/misc";
+import { getWhyChooseUs } from "@/lib/db/content";
 import { CheckCircle2 } from "lucide-react";
 
-export function WhyChooseUs() {
+export async function WhyChooseUs() {
+  const whyChooseUs = await getWhyChooseUs();
+
   return (
     <section className="section-pad">
       <div className="container-brand grid grid-cols-1 items-center gap-14 lg:grid-cols-2">

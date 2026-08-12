@@ -1,8 +1,10 @@
 import { SectionHeading } from "@/components/shared/section-heading";
 import { FaqAccordion } from "@/components/shared/faq-accordion";
-import { homeFaqs } from "@/data/misc";
+import { getHomeFaqs } from "@/lib/db/content";
 
-export function Faq() {
+export async function Faq() {
+  const homeFaqs = await getHomeFaqs();
+
   return (
     <section className="section-pad bg-muted/30">
       <div className="container-brand max-w-3xl">

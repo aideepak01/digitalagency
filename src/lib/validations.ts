@@ -1,5 +1,22 @@
 import { z } from "zod";
 
+/**
+ * Fields every public form posts alongside its own data, used by
+ * `src/lib/api/submissions.ts` to reject bots.
+ *
+ * `website` is a honeypot: hidden from real users, so any value means a script
+ * filled the form in. `renderedAt` is when the form mounted — a submission that
+ * arrives within a second or two of render was not typed by a human.
+ *
+ * Both are optional so that a form posting without them still validates; the
+ * guard treats a missing `renderedAt` as "unknown" rather than as spam.
+ */
+export const spamGuardSchema = z.object({
+  website: z.string().max(0, "Rejected").optional(),
+  renderedAt: z.number().int().positive().optional(),
+});
+export type SpamGuardValues = z.infer<typeof spamGuardSchema>;
+
 export const contactFormSchema = z.object({
   name: z.string().min(2, "Please enter your full name"),
   email: z.email("Please enter a valid email address"),

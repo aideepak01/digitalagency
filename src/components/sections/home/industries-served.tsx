@@ -3,9 +3,11 @@ import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { IndustryCard } from "@/components/shared/industry-card";
 import { Button } from "@/components/ui/button";
-import { industries } from "@/data/industries";
+import { getIndustries } from "@/lib/db/content";
 
-export function IndustriesServed() {
+export async function IndustriesServed() {
+  const industries = await getIndustries();
+
   return (
     <section className="section-pad bg-muted/30">
       <div className="container-brand">

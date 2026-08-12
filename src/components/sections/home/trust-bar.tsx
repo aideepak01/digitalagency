@@ -1,7 +1,8 @@
 import { Reveal } from "@/components/shared/reveal";
-import { testimonials } from "@/data/testimonials";
+import { getTestimonials } from "@/lib/db/content";
 
-export function TrustBar() {
+export async function TrustBar() {
+  const testimonials = await getTestimonials();
   const companies = Array.from(new Set(testimonials.map((t) => t.company)));
 
   return (

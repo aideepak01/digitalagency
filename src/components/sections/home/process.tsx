@@ -1,8 +1,10 @@
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
-import { processSteps } from "@/data/misc";
+import { getProcessSteps } from "@/lib/db/content";
 
-export function Process() {
+export async function Process() {
+  const processSteps = await getProcessSteps();
+
   return (
     <section className="section-pad">
       <div className="container-brand">

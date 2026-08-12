@@ -1,6 +1,15 @@
-import { siteConfig } from "@/data/site";
+import { getSiteConfig } from "@/lib/db/settings";
 
-export function organizationSchema() {
+/**
+ * JSON-LD builders.
+ *
+ * The site-dependent builders are async because the organisation name, URL, and
+ * contact details now come from the database. `getSiteConfig` is memoised per
+ * request, so a page that emits several schemas still issues one query.
+ */
+
+export async function organizationSchema() {
+  const siteConfig = await getSiteConfig();
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -23,7 +32,8 @@ export function organizationSchema() {
   };
 }
 
-export function websiteSchema() {
+export async function websiteSchema() {
+  const siteConfig = await getSiteConfig();
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -37,7 +47,8 @@ export function websiteSchema() {
   };
 }
 
-export function breadcrumbSchema(items: { name: string; url: string }[]) {
+export async function breadcrumbSchema(items: { name: string; url: string }[]) {
+  const siteConfig = await getSiteConfig();
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -50,11 +61,8 @@ export function breadcrumbSchema(items: { name: string; url: string }[]) {
   };
 }
 
-export function serviceSchema(service: {
-  name: string;
-  tagline: string;
-  slug: string;
-}) {
+export async function serviceSchema(service: { name: string; tagline: string; slug: string }) {
+  const siteConfig = await getSiteConfig();
   return {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -70,6 +78,7 @@ export function serviceSchema(service: {
   };
 }
 
+/** Independent of site settings — stays synchronous. */
 export function faqSchema(faqs: { question: string; answer: string }[]) {
   return {
     "@context": "https://schema.org",
@@ -85,13 +94,14 @@ export function faqSchema(faqs: { question: string; answer: string }[]) {
   };
 }
 
-export function articleSchema(post: {
+export async function articleSchema(post: {
   title: string;
   excerpt: string;
   slug: string;
   date: string;
   author: { name: string };
 }) {
+  const siteConfig = await getSiteConfig();
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -113,9 +123,6 @@ export function articleSchema(post: {
 
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
-    />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
   );
 }

@@ -3,11 +3,15 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme-provider";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { WhatsAppButton } from "@/components/layout/whatsapp-button";
-import { JsonLd, organizationSchema, websiteSchema } from "@/lib/schema";
-import { siteConfig } from "@/data/site";
+import { getSiteConfig } from "@/lib/db/settings";
+
+/**
+ * Root layout: the document shell only.
+ *
+ * The public site's navbar, footer, and JSON-LD live in `(site)/layout.tsx`, a
+ * route group that does not affect URLs — that keeps the marketing chrome off
+ * the `/admin` pages, which have their own shell.
+ */
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,59 +23,63 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: `${siteConfig.name} — ${siteConfig.tagline}`,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  keywords: [
-    "AI development agency",
-    "software development agency",
-    "AI agents",
-    "AI chatbots",
-    "Next.js development",
-    "Laravel development",
-    "custom software development",
-    "web application development",
-    "mobile app development",
-  ],
-  authors: [{ name: siteConfig.name, url: siteConfig.url }],
-  creator: siteConfig.name,
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    url: siteConfig.url,
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+export async function generateMetadata(): Promise<Metadata> {
+  const siteConfig = await getSiteConfig();
+
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title: {
+      default: `${siteConfig.name} — ${siteConfig.tagline}`,
+      template: `%s | ${siteConfig.name}`,
+    },
     description: siteConfig.description,
-    siteName: siteConfig.name,
-    images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.name }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
-    images: [siteConfig.ogImage],
-    creator: "@sbabuai",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+    keywords: [
+      "AI development agency",
+      "software development agency",
+      "AI agents",
+      "AI chatbots",
+      "Next.js development",
+      "Laravel development",
+      "custom software development",
+      "web application development",
+      "mobile app development",
+    ],
+    authors: [{ name: siteConfig.name, url: siteConfig.url }],
+    creator: siteConfig.name,
+    alternates: {
+      canonical: "/",
+    },
+    openGraph: {
+      type: "website",
+      url: siteConfig.url,
+      title: `${siteConfig.name} — ${siteConfig.tagline}`,
+      description: siteConfig.description,
+      siteName: siteConfig.name,
+      images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${siteConfig.name} — ${siteConfig.tagline}`,
+      description: siteConfig.description,
+      images: [siteConfig.ogImage],
+      creator: "@sbabuai",
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-  },
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
+    icons: {
+      icon: "/favicon.ico",
+    },
+  };
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -81,10 +89,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
-        <JsonLd data={organizationSchema()} />
-        <JsonLd data={websiteSchema()} />
-      </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
@@ -92,10 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <main className="flex-1 pt-[76px]">{children}</main>
-          <Footer />
-          <WhatsAppButton />
+          {children}
         </ThemeProvider>
       </body>
     </html>

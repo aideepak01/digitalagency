@@ -17,12 +17,32 @@ const nextConfig = {
         // Bound how long a CDN may serve a deploy's HTML. `_next` is excluded
         // so the immutable hashed assets below keep their long cache; Next only
         // applies its own Cache-Control when a route hasn't already set one.
-        source: "/:path((?!_next/).*)",
+        //
+        // `api/` and `admin/` are excluded as well, and for a stronger reason
+        // than staleness: both render per-request, authenticated content. A
+        // shared CDN holding an admin page for 60s could serve one signed-in
+        // admin's view — leads, applicant details — to the next requester.
+        // They set their own no-store below and in their route handlers.
+        source: "/:path((?!_next/|api/|admin).*)",
         headers: [
           {
             key: "Cache-Control",
             value: "public, max-age=0, s-maxage=60, must-revalidate",
           },
+        ],
+      },
+      {
+        source: "/admin/:path*",
+        headers: [
+          { key: "Cache-Control", value: "no-store, must-revalidate" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
+        source: "/admin",
+        headers: [
+          { key: "Cache-Control", value: "no-store, must-revalidate" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
         ],
       },
     ];
